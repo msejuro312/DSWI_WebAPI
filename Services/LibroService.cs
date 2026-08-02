@@ -49,7 +49,7 @@ namespace WebApplication1.Services
 
         public Libro getById(int LibroId)
         {
-            Libro libro = new Libro();
+            Libro libro = null;
 
             using (SqlConnection con = new SqlConnection(conexion))
             {
