@@ -7,6 +7,6 @@
         public string Titulo { get; set; }
         public string ISBN { get; set; }
         public int AnioPublicacion { get; set; }
-        public string Autor { get;}
+        public string Autor { get; set; }
     }
 }
