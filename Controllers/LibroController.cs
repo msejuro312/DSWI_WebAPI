@@ -92,6 +92,7 @@ namespace WebApplication1.Controllers
             }                    
             else
             {
+                libro.LibroId = LibroId;
                 bool resp = _service.update(libro);
                 if (resp)
                 {
@@ -99,7 +100,7 @@ namespace WebApplication1.Controllers
                     {
                         message = "Libro actualizado correctamente!",
                         success = true,
-                        data = libro
+                        data = lib
                     });
                 }
                 else
@@ -116,7 +117,7 @@ namespace WebApplication1.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{LibroId}")]
 
         public async Task<IActionResult> Delete(int LibroId)
         {
