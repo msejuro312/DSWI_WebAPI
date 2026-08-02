@@ -99,7 +99,7 @@ namespace WebApplication1.Controllers
                     {
                         message = "Libro actualizado correctamente!",
                         success = true,
-                        data = lib
+                        data = libro
                     });
                 }
                 else
