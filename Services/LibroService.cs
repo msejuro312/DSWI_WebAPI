@@ -81,7 +81,14 @@ namespace WebApplication1.Services
 
         public bool insert(Libro libro)
         {
-            throw new NotImplementedException();
+            bool resp = false;
+
+            using (SqlConnection con = new SqlConnection(conexion))
+            {
+                con.Open();
+                SqlTransaction tran = con.BeginTransaction();
+                using(SqlCommand command = new SqlCommand("",con))
+            }
         }
 
         public bool delete(int LibroId)

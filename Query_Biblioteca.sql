@@ -86,3 +86,27 @@ begin
     insert Libro(AutorId, Titulo, ISBN, AnioPublicacion)
     values(@AutorId, @Titulo, @ISBN, @AnioPublicacion)
 end
+
+create or alter procedure sp_update_libro
+@LibroId INT,
+@AutorId INT,
+@Titulo NVARCHAR(150),
+@ISBN VARCHAR(20),
+@AnioPublicacion INT
+as
+begin
+	update Libro set 
+	AutorId = @AutorId,
+	Titulo = @Titulo, 
+	ISBN = @ISBN,
+	AnioPublicacion = @AnioPublicacion
+    where LibroId = @LibroId
+end
+
+create or alter procedure sp_delete_libro
+@LibroId INT
+as
+begin
+	delete from Libro	
+    where LibroId = @LibroId
+end
