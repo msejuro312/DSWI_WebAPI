@@ -76,11 +76,11 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [HttpPut("{LibroId}")]
+        [HttpPut]
 
-        public async Task<IActionResult> Put(int LibroId, [FromBody] Libro libro)
+        public async Task<IActionResult> Put([FromBody] Libro libro)
         {
-            Libro lib = _service.getById(LibroId);
+            Libro lib = _service.getById(libro.LibroId);
             if (lib == null)
             { 
                 return NotFound(new ApiResponse<object>
@@ -92,7 +92,6 @@ namespace WebApplication1.Controllers
             }                    
             else
             {
-                libro.LibroId = LibroId;
                 bool resp = _service.update(libro);
                 if (resp)
                 {
