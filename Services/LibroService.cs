@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Windows.Input;
 using WebApplication1.Interfaces;
 using WebApplication1.Models;
 
@@ -82,18 +83,106 @@ namespace WebApplication1.Services
         public bool insert(Libro libro)
         {
             bool resp = false;
+                       
+                using (SqlConnection con = new SqlConnection(conexion))
+                {
+                    con.Open();
+                    SqlTransaction tran = con.BeginTransaction();
+
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("sp_insert_libro", con))
+                    {
+                        command.Transaction = tran;
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@AutorId", libro.AutorId);
+                        command.Parameters.AddWithValue("@Titulo", libro.Titulo);
+                        command.Parameters.AddWithValue("@ISBN", libro.ISBN);
+                        command.Parameters.AddWithValue("@AnioPublicacion", libro.AnioPublicacion);
+                        resp = command.ExecuteNonQuery() > 0;
+                        tran.Commit();
+
+
+                    }
+                }
+                catch (Exception ex)
+                    {
+                        tran.Rollback();
+                    }
+                }
+            return resp;
+
+
+
+
+        }
+
+        public bool update(Libro libro)
+        {
+            bool resp = false;
 
             using (SqlConnection con = new SqlConnection(conexion))
             {
                 con.Open();
                 SqlTransaction tran = con.BeginTransaction();
-                using(SqlCommand command = new SqlCommand("",con))
+
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("sp_update_libro", con))
+                    {
+                        command.Transaction = tran;
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@LibroId", libro.LibroId);
+                        command.Parameters.AddWithValue("@AutorId", libro.AutorId);
+                        command.Parameters.AddWithValue("@Titulo", libro.Titulo);
+                        command.Parameters.AddWithValue("@ISBN", libro.ISBN);
+                        command.Parameters.AddWithValue("@AnioPublicacion", libro.AnioPublicacion);
+                        resp = command.ExecuteNonQuery() > 0;
+                        tran.Commit();
+
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                }
             }
+            return resp;
         }
+
+
+
+    
 
         public bool delete(int LibroId)
         {
-            throw new NotImplementedException();
+            bool resp = false;
+
+            using (SqlConnection con = new SqlConnection(conexion))
+            {
+                con.Open();
+                SqlTransaction tran = con.BeginTransaction();
+
+                try
+                {
+                    using (SqlCommand command = new SqlCommand("sp_delete_libro", con))
+                    {
+                        command.Transaction = tran;
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@LibroId", LibroId);                        
+                        resp = command.ExecuteNonQuery() > 0;
+                        tran.Commit();
+
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                }
+            }
+            return resp;
         }
 
        
@@ -102,9 +191,6 @@ namespace WebApplication1.Services
 
         
 
-        public bool update(Libro libro)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
